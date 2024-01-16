@@ -11,7 +11,7 @@ import bcrypt from "bcryptjs";
 export const addPost = async (previousState,formData) => {
   const { title, desc, slug, userid } = Object.fromEntries(formData);
   try {
-    connectToDb();
+    await connectToDb();
     const newPost = new Post({
       title,
       desc,
@@ -21,6 +21,7 @@ export const addPost = async (previousState,formData) => {
 
     await newPost.save();
     console.log("saved to db");
+    return { success: true };
     revalidatePath("/blog");
     revalidatePath("/admin")
   } catch (err) {
